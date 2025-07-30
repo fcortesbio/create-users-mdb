@@ -1,49 +1,27 @@
 import express from "express";
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
 // GET /api/users - Get all users
-router.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "Users route working",
-    data: []
-  });
-});
-
-// POST /api/users - Create a new user
-router.post("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "User creation endpoint",
-    data: req.body
-  });
-});
+router.get("/", getAllUsers);
 
 // GET /api/users/:id - Get user by ID
-router.get("/:id", (req, res) => {
-  res.json({
-    success: true,
-    message: `Get user with ID: ${req.params.id}`,
-    data: null
-  });
-});
+router.get("/:id", getUserById);
 
-// PUT /api/users/:id - Update user by ID
-router.put("/:id", (req, res) => {
-  res.json({
-    success: true,
-    message: `Update user with ID: ${req.params.id}`,
-    data: req.body
-  });
-});
+// POST /api/users - Create new user
+router.post("/", createUser);
 
-// DELETE /api/users/:id - Delete user by ID
-router.delete("/:id", (req, res) => {
-  res.json({
-    success: true,
-    message: `Delete user with ID: ${req.params.id}`
-  });
-});
+// PUT /api/users/:id - Update user
+router.put("/:id", updateUser);
+
+// DELETE /api/users/:id - Delete user
+router.delete("/:id", deleteUser);
 
 export default router;

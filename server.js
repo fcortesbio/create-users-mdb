@@ -12,25 +12,25 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// connect to MongoDB
+// Connect to MongoDB
 connectDB();
 
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-
-// Serve frontend
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+app.use(morgan("tiny"));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
 // API Routes
 app.use("/api/users", userRoutes);
+
+// Serve frontend
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

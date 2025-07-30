@@ -15,16 +15,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/fcortesbio/create-users-mdb/issues"
   },
   "homepage": "https://github.com/fcortesbio/create-users-mdb#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "mongodb": "^6.18.0",
-    "mongoose": "^8.17.0"
+    "mongoose": "^8.17.0",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

@@ -8,15 +8,17 @@
     </head>
     <body>
         <div class="container">
+            <!-- Main header -->
             <header>
                 <h1>User Management System</h1>
             </header>
 
             <main>
-                <!-- User Form -->
+                <!-- User creation/editing form -->
                 <section class="form-section">
                     <h2 id="form-title">Add New User</h2>
                     <form id="user-form">
+                        <!-- Hidden field to store user ID during editing -->
                         <input type="hidden" id="user-id" />
 
                         <div class="form-group">
@@ -56,6 +58,7 @@
                             <button type="submit" id="submit-btn">
                                 Add User
                             </button>
+                            <!-- Cancel button (hidden by default, shown during editing) -->
                             <button
                                 type="button"
                                 id="cancel-btn"
@@ -67,16 +70,19 @@
                     </form>
                 </section>
 
-                <!-- Users List -->
+                <!-- Users display section -->
                 <section class="users-section">
                     <h2>Users List</h2>
+                    <!-- Loading indicator -->
                     <div id="loading" class="loading">Loading users...</div>
+                    <!-- Error message display -->
                     <div
                         id="error-message"
                         class="error-message"
                         style="display: none"
                     ></div>
                     <div id="users-container">
+                        <!-- Users table (hidden until users are loaded) -->
                         <table id="users-table" style="display: none">
                             <thead>
                                 <tr>
@@ -88,6 +94,7 @@
                             </thead>
                             <tbody id="users-tbody"></tbody>
                         </table>
+                        <!-- No users message (shown when no users exist) -->
                         <div
                             id="no-users"
                             class="no-users"
@@ -100,7 +107,7 @@
             </main>
         </div>
 
-        <!-- Success/Error Messages -->
+        <!-- Container for temporary success/error messages -->
         <div id="message-container" class="message-container"></div>
 
         <script src="script.js"></script>

@@ -1,9 +1,3 @@
-/**
- * User Management System - CSS Styles
- * Responsive design with modern styling and smooth animations
- */
-
-/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -17,14 +11,12 @@ body {
     background-color: #f4f4f4;
 }
 
-/* Main container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Header styling */
 header {
     text-align: center;
     margin-bottom: 30px;
@@ -39,7 +31,6 @@ header h1 {
     font-size: 2.5rem;
 }
 
-/* Main layout - two column grid */
 main {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -47,7 +38,6 @@ main {
     align-items: start;
 }
 
-/* Section styling */
 .form-section,
 .users-section {
     background: white;
@@ -56,7 +46,6 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Section headers */
 .form-section h2,
 .users-section h2 {
     margin-bottom: 20px;
@@ -65,7 +54,6 @@ main {
     padding-bottom: 10px;
 }
 
-/* Form styling */
 .form-group {
     margin-bottom: 20px;
 }
@@ -86,19 +74,16 @@ main {
     transition: border-color 0.3s ease;
 }
 
-/* Input focus state */
 .form-group input:focus {
     outline: none;
     border-color: #3498db;
 }
 
-/* Form actions container */
 .form-actions {
     display: flex;
     gap: 10px;
 }
 
-/* Button base styling */
 button {
     padding: 12px 24px;
     border: none;
@@ -109,7 +94,6 @@ button {
     transition: background-color 0.3s ease;
 }
 
-/* Primary button (submit) */
 button[type="submit"] {
     background-color: #3498db;
     color: white;
@@ -119,7 +103,6 @@ button[type="submit"]:hover {
     background-color: #2980b9;
 }
 
-/* Cancel button */
 #cancel-btn {
     background-color: #95a5a6;
     color: white;
@@ -129,7 +112,6 @@ button[type="submit"]:hover {
     background-color: #7f8c8d;
 }
 
-/* Loading indicator */
 .loading {
     text-align: center;
     padding: 20px;
@@ -137,7 +119,6 @@ button[type="submit"]:hover {
     font-style: italic;
 }
 
-/* Error message styling */
 .error-message {
     background-color: #e74c3c;
     color: white;
@@ -146,14 +127,12 @@ button[type="submit"]:hover {
     margin-bottom: 20px;
 }
 
-/* No users message */
 .no-users {
     text-align: center;
     padding: 40px;
     color: #7f8c8d;
 }
 
-/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -167,19 +146,16 @@ td {
     border-bottom: 1px solid #ddd;
 }
 
-/* Table header */
 th {
     background-color: #f8f9fa;
     font-weight: 600;
     color: #2c3e50;
 }
 
-/* Table row hover effect */
 tr:hover {
     background-color: #f8f9fa;
 }
 
-/* Action buttons in table */
 .action-btn {
     padding: 6px 12px;
     margin: 0 2px;
@@ -187,7 +163,6 @@ tr:hover {
     border-radius: 3px;
 }
 
-/* Edit button */
 .edit-btn {
     background-color: #f39c12;
     color: white;
@@ -197,7 +172,6 @@ tr:hover {
     background-color: #e67e22;
 }
 
-/* Delete button */
 .delete-btn {
     background-color: #e74c3c;
     color: white;
@@ -207,7 +181,6 @@ tr:hover {
     background-color: #c0392b;
 }
 
-/* Message container for notifications */
 .message-container {
     position: fixed;
     top: 20px;
@@ -215,7 +188,6 @@ tr:hover {
     z-index: 1000;
 }
 
-/* Individual message styling */
 .message {
     padding: 15px 20px;
     margin-bottom: 10px;
@@ -225,17 +197,14 @@ tr:hover {
     animation: slideIn 0.3s ease;
 }
 
-/* Success message */
 .message.success {
     background-color: #27ae60;
 }
 
-/* Error message */
 .message.error {
     background-color: #e74c3c;
 }
 
-/* Slide-in animation for messages */
 @keyframes slideIn {
     from {
         transform: translateX(100%);
@@ -247,26 +216,21 @@ tr:hover {
     }
 }
 
-/* Responsive design for mobile devices */
 @media (max-width: 768px) {
-    /* Stack layout vertically on mobile */
     main {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    /* Smaller header on mobile */
     header h1 {
         font-size: 2rem;
     }
 
-    /* Reduced padding on mobile */
     .form-section,
     .users-section {
         padding: 20px;
     }
 
-    /* Smaller table text on mobile */
     table {
         font-size: 14px;
     }
@@ -276,7 +240,6 @@ tr:hover {
         padding: 8px;
     }
 
-    /* Smaller action buttons on mobile */
     .action-btn {
         padding: 4px 8px;
         font-size: 12px;

@@ -1,26 +1,14 @@
-/**
- * User Management System - Frontend JavaScript
- * Handles all client-side functionality including form submission,
- * user display, editing, deletion, and API communication
- */
-
 class UserManager {
-  /**
-   * Initialize the UserManager with DOM elements and event listeners
-   */
   constructor() {
     this.apiUrl = "/api/users";
-    this.currentUserId = null; // Stores ID of user being edited
-    this.isEditing = false; // Tracks if we're in edit mode
+    this.currentUserId = null;
+    this.isEditing = false;
 
     this.initializeElements();
     this.attachEventListeners();
     this.loadUsers();
   }
 
-  /**
-   * Get references to all DOM elements we'll need
-   */
   initializeElements() {
     this.form = document.getElementById("user-form");
     this.formTitle = document.getElementById("form-title");
@@ -38,22 +26,14 @@ class UserManager {
     this.messageContainer = document.getElementById("message-container");
   }
 
-  /**
-   * Attach event listeners to form elements
-   */
   attachEventListeners() {
     this.form.addEventListener("submit", (e) => this.handleSubmit(e));
     this.cancelBtn.addEventListener("click", () => this.cancelEdit());
   }
 
-  /**
-   * Handle form submission for both create and update operations
-   * @param {Event} e - Form submit event
-   */
   async handleSubmit(e) {
     e.preventDefault();
 
-    // Extract form data
     const userData = {
       username: this.usernameInput.value.trim(),
       email: this.emailInput.value.trim(),
@@ -61,7 +41,6 @@ class UserManager {
     };
 
     try {
-      // Determine if we're creating or updating
       if (this.isEditing) {
         await this.updateUser(this.currentUserId, userData);
       } else {
@@ -72,10 +51,6 @@ class UserManager {
     }
   }
 
-  /**
-   * Create a new user via API
-   * @param {Object} userData - User data from form
-   */
   async createUser(userData) {
     try {
       const response = await fetch(this.apiUrl, {
@@ -91,7 +66,7 @@ class UserManager {
       if (result.success) {
         this.showMessage("User created successfully!", "success");
         this.resetForm();
-        this.loadUsers(); // Refresh the user list
+        this.loadUsers();
       } else {
         this.showMessage(result.message || "Failed to create user", "error");
       }
@@ -100,11 +75,6 @@ class UserManager {
     }
   }
 
-  /**
-   * Update an existing user via API
-   * @param {string} userId - ID of user to update
-   * @param {Object} userData - Updated user data
-   */
   async updateUser(userId, userData) {
     try {
       const response = await fetch(`${this.apiUrl}/${userId}`, {
@@ -120,7 +90,7 @@ class UserManager {
       if (result.success) {
         this.showMessage("User updated successfully!", "success");
         this.cancelEdit();
-        this.loadUsers(); // Refresh the user list
+        this.loadUsers();
       } else {
         this.showMessage(result.message || "Failed to update user", "error");
       }
@@ -129,12 +99,7 @@ class UserManager {
     }
   }
 
-  /**
-   * Delete a user via API with confirmation
-   * @param {string} userId - ID of user to delete
-   */
   async deleteUser(userId) {
-    // Show confirmation dialog
     if (!confirm("Are you sure you want to delete this user?")) {
       return;
     }
@@ -148,7 +113,7 @@ class UserManager {
 
       if (result.success) {
         this.showMessage("User deleted successfully!", "success");
-        this.loadUsers(); // Refresh the user list
+        this.loadUsers();
       } else {
         this.showMessage(result.message || "Failed to delete user", "error");
       }
@@ -157,9 +122,6 @@ class UserManager {
     }
   }
 
-  /**
-   * Load all users from API and display them
-   */
   async loadUsers() {
     this.showLoading(true);
     this.hideError();
@@ -180,10 +142,6 @@ class UserManager {
     }
   }
 
-  /**
-   * Display users in the table or show "no users" message
-   * @param {Array} users - Array of user objects
-   */
   displayUsers(users) {
     if (users.length === 0) {
       this.usersTable.style.display = "none";
@@ -194,7 +152,6 @@ class UserManager {
     this.noUsers.style.display = "none";
     this.usersTable.style.display = "table";
 
-    // Generate table rows for each user
     this.usersTbody.innerHTML = users
       .map(
         (user) => `
@@ -216,63 +173,42 @@ class UserManager {
       .join("");
   }
 
-  /**
-   * Switch to edit mode and populate form with user data
-   * @param {string} userId - ID of user to edit
-   * @param {string} username - Current username
-   * @param {string} email - Current email
-   */
   editUser(userId, username, email) {
     this.isEditing = true;
     this.currentUserId = userId;
 
-    // Update form UI for editing
     this.formTitle.textContent = "Edit User";
     this.submitBtn.textContent = "Update User";
     this.cancelBtn.style.display = "inline-block";
 
-    // Populate form with current user data
     this.usernameInput.value = username;
     this.emailInput.value = email;
     this.passwordInput.value = "";
     this.passwordInput.placeholder = "Leave blank to keep current password";
-    this.passwordInput.required = false; // Password optional for updates
+    this.passwordInput.required = false;
 
     this.usernameInput.focus();
   }
 
-  /**
-   * Cancel edit mode and return to create mode
-   */
   cancelEdit() {
     this.isEditing = false;
     this.currentUserId = null;
 
-    // Reset form UI to create mode
     this.formTitle.textContent = "Add New User";
     this.submitBtn.textContent = "Add User";
     this.cancelBtn.style.display = "none";
 
-    // Reset password field requirements
     this.passwordInput.placeholder = "";
     this.passwordInput.required = true;
 
     this.resetForm();
   }
 
-  /**
-   * Clear all form fields
-   */
   resetForm() {
     this.form.reset();
     this.userIdInput.value = "";
   }
 
-  /**
-   * Show a temporary message to the user
-   * @param {string} message - Message text
-   * @param {string} type - Message type ('success' or 'error')
-   */
   showMessage(message, type) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${type}`;
@@ -280,41 +216,24 @@ class UserManager {
 
     this.messageContainer.appendChild(messageDiv);
 
-    // Auto-remove message after 5 seconds
     setTimeout(() => {
       messageDiv.remove();
     }, 5000);
   }
 
-  /**
-   * Show or hide loading indicator
-   * @param {boolean} show - Whether to show loading
-   */
   showLoading(show) {
     this.loading.style.display = show ? "block" : "none";
   }
 
-  /**
-   * Show error message
-   * @param {string} message - Error message text
-   */
   showError(message) {
     this.errorMessage.textContent = message;
     this.errorMessage.style.display = "block";
   }
 
-  /**
-   * Hide error message
-   */
   hideError() {
     this.errorMessage.style.display = "none";
   }
 
-  /**
-   * Escape HTML to prevent XSS attacks
-   * @param {string} text - Text to escape
-   * @returns {string} - HTML-escaped text
-   */
   escapeHtml(text) {
     const div = document.createElement("div");
     div.textContent = text;
@@ -322,5 +241,5 @@ class UserManager {
   }
 }
 
-// Initialize the application when page loads
+// Initialize the application
 const userManager = new UserManager();

@@ -1,20 +1,8 @@
-/**
- * User controller functions
- * Contains all business logic for user CRUD operations
- * Handles validation, error responses, and database interactions
- */
-
 import User from "../models/User.js";
 
-/**
- * Retrieve all users from database
- * Excludes password field from response for security
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
+// Get all users
 export const getAllUsers = async (req, res) => {
   try {
-    // Find all users but exclude password field
     const users = await User.find().select("-password");
     res.json({
       success: true,
@@ -29,17 +17,11 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-/**
- * Retrieve a specific user by their ID
- * @param {Object} req - Express request object (contains user ID in params)
- * @param {Object} res - Express response object
- */
+// Get user by ID
 export const getUserById = async (req, res) => {
   try {
-    // Find user by ID, excluding password
     const user = await User.findById(req.params.id).select("-password");
 
-    // Return 404 if user doesn't exist
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -60,18 +42,12 @@ export const getUserById = async (req, res) => {
   }
 };
 
-/**
- * Create a new user account
- * Validates uniqueness of username and email
- * Automatically hashes password before saving
- * @param {Object} req - Express request object (contains user data in body)
- * @param {Object} res - Express response object
- */
+// Create new user
 export const createUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if user with same email or username already exists
+    // Check if user already exists
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
@@ -83,11 +59,10 @@ export const createUser = async (req, res) => {
       });
     }
 
-    // Create new user (password will be hashed by pre-save middleware)
     const user = new User({ username, email, password });
     await user.save();
 
-    // Remove password from response for security
+    // Remove password from response
     const userResponse = user.toObject();
     delete userResponse.password;
 
@@ -97,7 +72,6 @@ export const createUser = async (req, res) => {
       data: userResponse,
     });
   } catch (error) {
-    // Handle validation errors specifically
     if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
@@ -114,19 +88,13 @@ export const createUser = async (req, res) => {
   }
 };
 
-/**
- * Update an existing user's information
- * Validates uniqueness of username/email (excluding current user)
- * Only updates provided fields
- * @param {Object} req - Express request object (contains user ID and update data)
- * @param {Object} res - Express response object
- */
+// Update user
 export const updateUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const userId = req.params.id;
 
-    // Verify user exists before updating
+    // Check if user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
@@ -135,10 +103,10 @@ export const updateUser = async (req, res) => {
       });
     }
 
-    // Check for duplicate username/email among other users
+    // Check for duplicate username/email (excluding current user)
     if (username || email) {
       const duplicateUser = await User.findOne({
-        _id: { $ne: userId }, // Exclude current user from duplicate check
+        _id: { $ne: userId },
         $or: [
           ...(username ? [{ username }] : []),
           ...(email ? [{ email }] : []),
@@ -153,14 +121,14 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    // Update only provided fields
+    // Update fields
     if (username) user.username = username;
     if (email) user.email = email;
-    if (password) user.password = password; // Will be hashed automatically
+    if (password) user.password = password; // Will be hashed by pre-save middleware
 
     await user.save();
 
-    // Remove password from response for security
+    // Remove password from response
     const userResponse = user.toObject();
     delete userResponse.password;
 
@@ -170,7 +138,6 @@ export const updateUser = async (req, res) => {
       data: userResponse,
     });
   } catch (error) {
-    // Handle validation errors
     if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
@@ -187,17 +154,11 @@ export const updateUser = async (req, res) => {
   }
 };
 
-/**
- * Delete a user from the database
- * @param {Object} req - Express request object (contains user ID in params)
- * @param {Object} res - Express response object
- */
+// Delete user
 export const deleteUser = async (req, res) => {
   try {
-    // Find and delete user in one operation
     const user = await User.findByIdAndDelete(req.params.id);
 
-    // Return 404 if user doesn't exist
     if (!user) {
       return res.status(404).json({
         success: false,

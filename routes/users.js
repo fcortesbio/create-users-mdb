@@ -1,8 +1,3 @@
-/**
- * User routes definition
- * Defines all API endpoints for user CRUD operations
- */
-
 import express from "express";
 import {
   getAllUsers,
@@ -14,19 +9,19 @@ import {
 
 const router = express.Router();
 
-// GET /api/users - Retrieve all users from database
+// GET /api/users - Get all users
 router.get("/", getAllUsers);
 
-// GET /api/users/:id - Retrieve a specific user by their ID
+// GET /api/users/:id - Get user by ID
 router.get("/:id", getUserById);
 
-// POST /api/users - Create a new user account
+// POST /api/users - Create new user
 router.post("/", createUser);
 
-// PUT /api/users/:id - Update an existing user's information
+// PUT /api/users/:id - Update user
 router.put("/:id", updateUser);
 
-// DELETE /api/users/:id - Remove a user from the database
+// DELETE /api/users/:id - Delete user
 router.delete("/:id", deleteUser);
 
 export default router;
